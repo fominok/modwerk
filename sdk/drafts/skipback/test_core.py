@@ -25,6 +25,7 @@ def main():
         command = compiler + ['-std=c11', '-O2', '-Wall', '-Wextra', '-Werror',
                               '-pedantic', '-fsanitize=' + sanitizers,
                               '-fno-omit-frame-pointer', str(HERE / 'skipback.c'),
+                              str(HERE / 'recorder_pages.c'), str(HERE / 'test_pages.c'),
                               str(HERE / 'test_skipback.c'), '-o', str(executable)]
         subprocess.run(command, check=True, timeout=60)
         result = subprocess.run([str(executable)], check=True, timeout=60,
@@ -37,7 +38,8 @@ def main():
                 'compiler': subprocess.check_output(compiler + ['--version'], text=True).splitlines()[0],
                 'sanitizers': sanitizers,
                 'sources': {name: hashlib.sha256((HERE / name).read_bytes()).hexdigest()
-                            for name in ('skipback.c', 'skipback.h', 'test_skipback.c', 'test_core.py')},
+                            for name in ('skipback.c', 'skipback.h', 'test_skipback.c', 'test_core.py',
+                                         'recorder_pages.c', 'recorder_pages.h', 'test_pages.c')},
                 'result': result.stdout.strip(), 'exitCode': result.returncode,
                 'emulator': 'not run', 'hardware': 'not tested', 'timing': 'not measured',
             }

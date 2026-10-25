@@ -4,10 +4,13 @@
   "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
   "sanitizers": "address,undefined",
   "sources": {
-    "skipback.c": "18b826c9f58d4f0c61710745fec8c78f5d9e11c4a44dc82847d4916a9e2c2dea",
-    "skipback.h": "9c19c4efe1c40f35a01a5162357ad325020b0dc1513286c9239aa60af3a88fee",
-    "test_skipback.c": "fc2173235ae19d01c8ca76c83c7312bcd42ca33841cacf23acf50200630bfc97",
-    "test_core.py": "50d6b8c636849cdddc7f9d42f6cfca7f42bc89ba4c5fc872ee9f74e0b961da42"
+    "skipback.c": "8b6294c3a076e7574b4c1708d88a91cebe81ea2db13b191d6a55ecbf841d164b",
+    "skipback.h": "b30831bcbb342d862dc694a343c7b8ece44488c6f40bb93a5d69fab608c35804",
+    "test_skipback.c": "0bc987750e722ec3028bff57c6e456e7794fb14d3140138b9b92e4e98b5b98bc",
+    "test_core.py": "b72f3430aeeaabfea772dd669b72529ae98cf018ec403fe093c9a5746101e97e",
+    "recorder_pages.c": "fbd367e6f8208e055216f4fbaeeedaf0878658b46c8e995782fd80e642417552",
+    "recorder_pages.h": "a89c7a20147604e3c87cdffea91214e859eacfa78333b822bfb892539e665585",
+    "test_pages.c": "70eb089c70bb2464c95edd85bbe478ec0791032b1c4939b88f84774e30bbbf4c"
   },
   "result": "PASS: settings, admission, 16256 rotations, packed stereo streams, bounded work and fault paths",
   "exitCode": 0,

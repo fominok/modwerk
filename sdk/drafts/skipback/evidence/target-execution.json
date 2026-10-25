@@ -1,0 +1,31 @@
+{
+  "scope": "Compiled ColdFire capture/page-provider execution in synthetic CPU memory; no stock calls",
+  "sources": {
+    "native/core_probe.cpp": "30d946de2a6bfe80ee12df20c14b97e8f8c172033e9041b1a4089840c5a4e0bc",
+    "native/cpu_fixture.c": "00d92496b236f04ca9e1d95d4dae7b58ee3106e45463e82ce857040d0183e678",
+    "native/CMakeLists.txt": "76e0c21f89c104ec335cb6631dcc671b36ff0a3f52287835735bde8c981f3b42",
+    "build_cpu_fixture.py": "8ce951871c9ebb1ff7631174be33100378aaa230908b53c42d4fe99fed36425f",
+    "run_cpu_fixture.py": "7c49dae584a56f960bd758d107ab4455eb13da259555b63392d934ef15dba91e"
+  },
+  "coreSources": {
+    "skipback.c": "8b6294c3a076e7574b4c1708d88a91cebe81ea2db13b191d6a55ecbf841d164b",
+    "skipback.h": "b30831bcbb342d862dc694a343c7b8ece44488c6f40bb93a5d69fab608c35804",
+    "native_probe.py": "92800bbda8d9d19aab1071013e7137396df746ac1f507804996a84e7cbb55e8e",
+    "recorder_pages.c": "fbd367e6f8208e055216f4fbaeeedaf0878658b46c8e995782fd80e642417552",
+    "recorder_pages.h": "a89c7a20147604e3c87cdffea91214e859eacfa78333b822bfb892539e665585"
+  },
+  "fixtureSha256": "555995c517f473a2e2b1f8cf457dc46010da6bfa549f2c7efe13d00bf7eee537",
+  "runnerSha256": "2a208e4bf6612c3a71bd842de0eec8c16bc9cf15efd081803cab2cfa1ceb9d39",
+  "originalMainSha256": "164f31224bf61181e3f50e7dec40df9afcae5b16dbf6e4c0d0cc5e986af0a84e",
+  "exitCode": 0,
+  "observations": [
+    "PASS target: compiled capture and fragmented-page provider, both stereo formats, two wraps, chronological PCM, untouched pages and retired leases; instructions=72832081",
+    "OBSERVED target: sessionBytes=70 pageViewBytes=24 checkedFrames=88200"
+  ],
+  "stdoutSha256": "b33ef997e081a99e841c1a04c4f2b7880a0331fba8c80898a9c57ab0658c2587",
+  "stderrSha256": "21495107133b98459d58d78262e4935ad828b0578af9c62da412effd72215f99",
+  "stockCalls": false,
+  "moduleInstalled": false,
+  "hardware": "not tested",
+  "timing": "not measured"
+}

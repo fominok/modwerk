@@ -3,7 +3,8 @@
 Approved design: system module `skipback`, R8, 60 seconds, stereo MAIN, OFF by
 default, PROJECT → CONTROL → SKIPBACK. Preferences reload with the project;
 the recording action never resumes automatically after load. Implementation
-currently stops at the original portable capture core. Do not install this draft.
+includes the capture core, a page-backed provider and isolated native CPU
+fixtures. No live recorder adapter is installed. Do not install this draft.
 
 ## What exists
 
@@ -14,6 +15,18 @@ cycles, so it needs no second minute-sized audio buffer. At most 16 frame writes
 occur in each realignment call. Native scheduling must make those calls outside
 the frame interrupt and supply a measured budget; the host bound is not a
 microsecond guarantee. No growing lifetime sample counter is used.
+
+`recorder_pages.c` maps logical frames over an immutable externally pinned map
+of 6,144-byte pages. It refuses shared silence page zero, duplicate or out-of-range
+pages, and retired tokens. Preparation validates the map; it neither allocates
+nor pins stock pages. `sb_start` checks that the lease is live before replacing
+a frozen capture. The adapter must supply a fresh token for every lease lifetime.
+
+Isolated 1.40C recorder fixtures establish that source 8 reads the stereo MAIN
+tap and ordinary recording overwrites existing PCM across fragmented page
+boundaries in both formats. At its configured length the recorder stops; it
+does not supply a free-running ring. These fixtures use authored CPU state,
+not the native scheduler or allocator. See TESTING.md for exact scope.
 
 `sb_store` is only an abstract test/integration boundary. Its callbacks are not
 an SDK service, a runtime ABI, page-map validation or authorization to write an
@@ -28,8 +41,8 @@ exclusion or coherent PCM by themselves. Direct C calls are not thread-safe.
    any write. Snapshot the original recorder settings; do not modify them as
    hidden persistent configuration. Refuse unavailable memory or an occupied
    target. Preserve the remaining recorders, other Flex allocations and both
-   DSP cores' real-time service. Determine whether the stock overwrite path
-   replaces or mixes old PCM; MAIN must not accidentally overdub the ring.
+   DSP cores' real-time service. The isolated overwrite result does not prove
+   the live scheduler, allocation or selected-project routing.
 2. **Editor destination and publication.** Resolve the actual AED kind/slot.
    Only opening the selected recorder triggers capture. Stop and quiesce all
    writers before realignment; keep its page map pinned against edits, recorder

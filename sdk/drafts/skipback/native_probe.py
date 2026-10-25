@@ -38,15 +38,18 @@ def main():
              '-fno-asynchronous-unwind-tables', '-fno-unwind-tables', '-fno-ident',
              '-fstack-usage', '-Wall', '-Wextra', '-Werror', '-pedantic', *guard.FLAGS]
     obj = output / 'skipback.o'
-    subprocess.run(['m68k-elf-gcc', *flags, '-c', str(HERE / 'skipback.c'), '-o', str(obj)], check=True)
-    guard.check([obj])
-    undefined = capture('m68k-elf-nm', '-u', str(obj)).splitlines()
+    pages_obj = output / 'recorder_pages.o'
+    for source, target in [('skipback.c', obj), ('recorder_pages.c', pages_obj)]:
+        subprocess.run(['m68k-elf-gcc', *flags, '-c', str(HERE / source), '-o', str(target)], check=True)
+    guard.check([obj, pages_obj])
+    undefined = [line for target in (obj, pages_obj)
+                 for line in capture('m68k-elf-nm', '-u', str(target)).splitlines()]
     if undefined:
         raise SystemExit('Unresolved helpers: ' + ', '.join(undefined))
     subprocess.run(['m68k-elf-ld', '--no-undefined', '-e', 'sb_init', '-Ttext=0',
-                    str(obj), '-o', str(output / 'skipback.elf')], check=True)
+                    str(obj), str(pages_obj), '-o', str(output / 'skipback.elf')], check=True)
     with (output / 'skipback.disassembly.txt').open('w') as log:
-        subprocess.run(['m68k-elf-objdump', '-d', str(obj)], check=True, stdout=log)
+        subprocess.run(['m68k-elf-objdump', '-d', str(obj), str(pages_obj)], check=True, stdout=log)
     layout = output / 'layout.c'
     layout.write_text('#include "skipback.h"\nchar sb_session_bytes[sizeof(struct sb_session)];\n')
     subprocess.run(['m68k-elf-gcc', *flags, '-I', str(HERE), '-c', str(layout),
@@ -60,11 +63,14 @@ def main():
         'assembler': capture('m68k-elf-as', '--version').splitlines()[0],
         'flags': flags,
         'sources': {name: hashlib.sha256((HERE / name).read_bytes()).hexdigest()
-                    for name in ('skipback.c', 'skipback.h', 'native_probe.py')},
+                    for name in ('skipback.c', 'skipback.h', 'native_probe.py',
+                                 'recorder_pages.c', 'recorder_pages.h')},
         'objectSha256': hashlib.sha256(obj.read_bytes()).hexdigest(),
+        'pagedObjectSha256': hashlib.sha256(pages_obj.read_bytes()).hexdigest(),
         'sessionBytes': state_bytes,
-        'size': capture('m68k-elf-size', str(obj)).splitlines(),
-        'stack': (output / 'skipback.su').read_text().splitlines(),
+        'size': capture('m68k-elf-size', str(obj), str(pages_obj)).splitlines(),
+        'stack': ((output / 'skipback.su').read_text().splitlines() +
+                  (output / 'recorder_pages.su').read_text().splitlines()),
         'undefinedSymbols': undefined, 'codegenGuard': 'passed', 'freestandingLink': True,
         'hardware': 'not tested', 'timing': 'not measured', 'nativeAdapter': 'not implemented',
     }

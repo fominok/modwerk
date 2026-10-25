@@ -34,6 +34,7 @@ struct sb_store {
     uint8_t buffer; /* the recorder actually leased by the adapter, 0..7 */
     int (*read)(void *, uint32_t token, uint32_t frame, uint8_t *out);
     int (*write)(void *, uint32_t token, uint32_t frame, const uint8_t *in);
+    int (*valid)(void *, uint32_t token); /* bounded lease check under caller's ownership guard */
 };
 
 struct sb_session {

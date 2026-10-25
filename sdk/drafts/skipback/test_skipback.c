@@ -4,11 +4,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+void sb_test_pages(void);
 
 struct memory {
     uint8_t *pcm;
     uint32_t frames, reads, writes, operations, fail_at, token;
-    unsigned size, buffer;
+    unsigned size, buffer, live;
 };
 
 static int allowed(struct memory *m, uint32_t token, uint32_t at) {
@@ -29,14 +30,18 @@ static int write_frame(void *ctx, uint32_t token, uint32_t at, const uint8_t *in
     ++m->writes;
     return 1;
 }
+static int lease_valid(void *ctx, uint32_t token) {
+    struct memory *m = ctx;
+    return m->live && token == m->token;
+}
 static struct sb_store store(struct memory *m) {
     struct sb_store result = {m, m->token, m->frames, (uint8_t)m->size,
-                             (uint8_t)m->buffer, read_frame, write_frame};
+                             (uint8_t)m->buffer, read_frame, write_frame, lease_valid};
     return result;
 }
 static struct memory memory(uint32_t frames, unsigned size) {
     struct memory m = {0};
-    m.frames = frames; m.size = size; m.token = 71; m.buffer = 7;
+    m.frames = frames; m.size = size; m.token = 71; m.buffer = 7; m.live = 1;
     m.pcm = malloc((size_t)frames * size);
     assert(m.pcm);
     memset(m.pcm, 0xa5, (size_t)frames * size);
@@ -246,6 +251,7 @@ int main(void) {
     all_rotations();
     failures();
     independent_sessions();
+    sb_test_pages();
     for (unsigned size = 4; size <= 6; size += 2) {
         stream(size, 1, 0, 163);
         stream(size, 1, 1, 0);

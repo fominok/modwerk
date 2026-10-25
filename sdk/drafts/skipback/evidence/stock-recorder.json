@@ -1,0 +1,31 @@
+{
+  "scope": "Isolated stock recorder instructions with synthetic CPU state; no boot, scheduler or device",
+  "originalMainSha256": "164f31224bf61181e3f50e7dec40df9afcae5b16dbf6e4c0d0cc5e986af0a84e",
+  "emulatorRevision": "dcf93d3709435836e19aab7a7ef18506db3e82ba",
+  "sources": {
+    "native/recorder_probe.cpp": "4d1b9e775cc3eb12625d16de9a1e007164b03ae2249c10e737b890d4a7a721da",
+    "native/CMakeLists.txt": "76e0c21f89c104ec335cb6631dcc671b36ff0a3f52287835735bde8c981f3b42",
+    "run_stock_probes.py": "f9fc94a70869bea2984b8dec27a46c6a0bdc90a608a9295fd00b31bbe8a0b2e1"
+  },
+  "executableSha256": "354ece8598f138770d84ad3c6dae199b1681a5691be24d95dd1a35984d5127c2",
+  "emulatorLibraries": {
+    "libot_machine.a": "c078ffe41186f8bda8462b897781edc168175864e0d265e5bf37d575bf8e2499",
+    "mc68k/lib68kEmu.a": "eafd03257a352aa2ad7cb0c631d448c55244bf1ffd922212cf3cccfd3fbbb8a6",
+    "dsp56300/dsp56kEmu/libdsp56kEmu.a": "41a72f9b63dd085d83711f11c009d82d232c28df35060d1f056ec4a8a634bcde",
+    "dsp56300/dsp56kBase/libdsp56kBase.a": "65152fcc21be009122b8511286d7ed3c72a27059b8cd477871e8832a14af4c94",
+    "dsp56300/asmjit/libasmjit.a": "ad6bbe9ba621d6b21e81ce2742ad8fd9da806f261faacd914f3cc734a5bc5db1"
+  },
+  "exitCode": 0,
+  "observations": [
+    "PASS overwrite: 8 ordinary-recorder cases; 16/24-bit, R1/R8, both state banks, noncontiguous pages",
+    "PASS MAIN: 8 synthetic full-gain source-8 cases preserve signed stereo 16/24-bit samples",
+    "OBSERVED limit: bits=16 firstReturn=1536 position=0 phase=0 stores=4 nextReturn=4294967295 nextStores=0",
+    "OBSERVED limit: bits=24 firstReturn=1024 position=0 phase=0 stores=8 nextReturn=4294967295 nextStores=0"
+  ],
+  "stdoutSha256": "2ae5f0a580c440a7ff802736612d93d649a5319aadb3ea27fcc6f395b180f0b5",
+  "stderrSha256": "43db63f5c6029500497a6debe324f496cf3e5bf2cd6b863a131b040c8affb22b",
+  "hardware": "not tested",
+  "timing": "not measured",
+  "liveOwnership": "not established",
+  "moduleInstalled": false
+}

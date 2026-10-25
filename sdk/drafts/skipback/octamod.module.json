@@ -97,12 +97,13 @@
   },
   "tests": {
     "report": "TESTING.md",
-    "summary": "Synthetic PCM tests pass, including 16,256 rotations and multiple default-minute wraps in both formats. Freestanding ColdFire compile/link passes. Native adapter, emulator acceptance and hardware remain untested.",
+    "summary": "Host sanitizers, 16,256 rotations and default-minute wraps pass. Compiled ColdFire core/page-provider CPU fixtures and isolated stock MAIN/overwrite probes pass. No installed-module acceptance or hardware qualification.",
     "hardwareStatus": "untested",
-    "evidenceRevision": "916ce01bbfc60f3aedd7156066354fedb521e6f4",
+    "evidenceRevision": "98f17ed6e19ca6a81f12372b9ea3b435c736443d",
     "gates": [
       "python3 -B sdk/drafts/skipback/test_core.py",
       "Pinned ColdFire compile/link: native_probe.py",
+      "Source-bound isolated CPU fixtures: run_cpu_fixture.py and run_stock_probes.py",
       "verify.py deliberately fails until native integration is qualified"
     ]
   },

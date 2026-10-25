@@ -4,6 +4,7 @@
     "date": "2026-10-25",
     "changes": [
       "Development draft for a configurable one-minute Skipback recorder, defaulting to buffer R8.",
+      "Draft capture engine supports fragmented recorder pages and refuses retired recording leases.",
       "Known issue: the capture core is tested, but instrument controls, recording and saving are not connected yet."
     ]
   }

@@ -3,7 +3,9 @@
 Version: 0.1.0-experimental · author: @fominok · category: system
 
 **Development draft. Not installable firmware.** The portable capture core is
-implemented and tested with synthetic PCM. The native recorder, project menu,
+implemented, including a fragmented-page provider, and exercised as compiled
+ColdFire code in synthetic emulator memory. Isolated stock recorder probes also
+confirm MAIN routing and overwrite behaviour. The native recorder, project menu,
 settings storage, audio editor and USB lifecycle are not implemented. There are
 no instrument/emulator screenshots or hardware results. This draft is unlisted.
 
@@ -88,7 +90,9 @@ fault paths. The default minute is tested after multiple wraps in both formats.
 The core's per-call write limit is verified; this is not a timing measurement.
 
 The pinned GCC 16.2.0 ColdFire build passes the shared code-generation guard and
-links without runtime helpers. This proves compile/link closure only.
+links without runtime helpers. Its compiled code also passes CPU execution
+fixtures for both formats, two wraps and fragmented pages. This is isolated
+emulator evidence; no installed module or real-time scheduling is claimed.
 See [TESTING.md](TESTING.md) for exact results, hashes and qualification gaps.
 `verify.py` deliberately refuses publication while integration is incomplete.
 

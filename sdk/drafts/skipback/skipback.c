@@ -24,6 +24,7 @@ void sb_reset(struct sb_session *s) {
     s->store.frame_bytes = 0;
     s->store.read = 0;
     s->store.write = 0;
+    s->store.valid = 0;
     s->capacity = s->count = s->next = 0;
     s->shift = s->cycles = s->cycle = s->cursor = 0;
     for (unsigned i = 0; i < 6; ++i) s->saved[i] = 0;
@@ -54,13 +55,14 @@ enum sb_result sb_required_bytes(const struct sb_settings *settings, uint8_t siz
 
 enum sb_result sb_start(struct sb_session *s, const struct sb_store *store, int discard) {
     uint32_t bytes;
-    if (!s || !store || !store->token || !store->read || !store->write ||
+    if (!s || !store || !store->token || !store->read || !store->write || !store->valid ||
         sb_required_bytes(&s->settings, store->frame_bytes, &bytes) != SB_OK ||
         store->buffer != s->settings.buffer)
         return SB_INVALID;
     if (s->phase == SB_LISTENING || s->phase == SB_REALIGNING) return SB_BUSY;
     if ((s->phase == SB_CAPTURED || s->phase == SB_FAULT) && !discard) return SB_CONFIRM;
     if (store->frames < (uint32_t)s->settings.seconds * SB_SAMPLE_RATE) return SB_NO_MEMORY;
+    if (!store->valid(store->context, store->token)) return SB_STALE;
     const struct sb_store next_store = *store;
     sb_reset(s);
     s->store = next_store;
@@ -78,7 +80,7 @@ enum sb_result sb_append(struct sb_session *s, uint32_t token,
                         const uint8_t *packed, uint32_t frames) {
     if (!s || frames > SB_FRAME_BATCH || (frames && !packed)) return SB_INVALID;
     if (s->phase != SB_LISTENING) return SB_BUSY;
-    if (token != s->store.token) return fault(s, SB_STALE);
+    if (token != s->store.token || !s->store.valid(s->store.context, token)) return fault(s, SB_STALE);
     for (uint32_t i = 0; i < frames; ++i) {
         if (!s->store.write(s->store.context, token, s->next, packed)) return fault(s, SB_IO);
         packed += s->store.frame_bytes;
@@ -91,7 +93,7 @@ enum sb_result sb_append(struct sb_session *s, uint32_t token,
 enum sb_result sb_freeze(struct sb_session *s, uint32_t token) {
     if (!s) return SB_INVALID;
     if (s->phase != SB_LISTENING) return SB_BUSY;
-    if (token != s->store.token) return fault(s, SB_STALE);
+    if (token != s->store.token || !s->store.valid(s->store.context, token)) return fault(s, SB_STALE);
     if (!s->count) { sb_reset(s); return SB_EMPTY; }
     if (s->count < s->capacity || !s->next) {
         s->phase = SB_CAPTURED;
@@ -109,7 +111,7 @@ enum sb_result sb_realign(struct sb_session *s, uint32_t token, uint32_t budget)
     uint8_t frame[6];
     if (!s || !budget || budget > SB_FRAME_BATCH) return SB_INVALID;
     if (s->phase != SB_REALIGNING) return SB_BUSY;
-    if (token != s->store.token) return fault(s, SB_STALE);
+    if (token != s->store.token || !s->store.valid(s->store.context, token)) return fault(s, SB_STALE);
     while (budget--) {
         if (!s->cycle_open) {
             s->cursor = s->cycle;
