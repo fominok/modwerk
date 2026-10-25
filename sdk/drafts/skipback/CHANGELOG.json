@@ -1,0 +1,10 @@
+[
+  {
+    "version": "0.1.0-experimental",
+    "date": "2026-10-25",
+    "changes": [
+      "Development draft for a configurable one-minute Skipback recorder, defaulting to buffer R8.",
+      "Known issue: the capture core is tested, but instrument controls, recording and saving are not connected yet."
+    ]
+  }
+]

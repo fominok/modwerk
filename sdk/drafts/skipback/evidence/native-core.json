@@ -1,0 +1,53 @@
+{
+  "scope": "Freestanding ColdFire compile/link only; no firmware, emulator or hardware run",
+  "compiler": "m68k-elf-gcc (GCC) 16.2.0",
+  "assembler": "GNU assembler (GNU Binutils) 2.47.20260726",
+  "flags": [
+    "-std=c11",
+    "-mcpu=5475",
+    "-msoft-float",
+    "-O2",
+    "-ffreestanding",
+    "-fno-builtin",
+    "-fno-common",
+    "-fno-jump-tables",
+    "-fno-tree-loop-distribute-patterns",
+    "-fno-optimize-sibling-calls",
+    "-fno-asynchronous-unwind-tables",
+    "-fno-unwind-tables",
+    "-fno-ident",
+    "-fstack-usage",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "-fno-late-combine-instructions"
+  ],
+  "sources": {
+    "skipback.c": "18b826c9f58d4f0c61710745fec8c78f5d9e11c4a44dc82847d4916a9e2c2dea",
+    "skipback.h": "9c19c4efe1c40f35a01a5162357ad325020b0dc1513286c9239aa60af3a88fee",
+    "native_probe.py": "e0df440164089abc1e0299a9c654f9d8ab6729ddf9450c97ffdf528f5d209acb"
+  },
+  "objectSha256": "dff660f90b325cb8709f166f6ea5a561576de6d100267f10b740754113eb85e5",
+  "sessionBytes": 66,
+  "size": [
+    "text\t   data\t    bss\t    dec\t    hex\tfilename",
+    "   1522\t      0\t      0\t   1522\t    5f2\t/output/skipback.o"
+  ],
+  "stack": [
+    "/source/sdk/drafts/skipback/skipback.c:21:6:sb_reset\t0\tstatic",
+    "/source/sdk/drafts/skipback/skipback.c:34:6:sb_init\t0\tstatic",
+    "/source/sdk/drafts/skipback/skipback.c:40:16:sb_configure\t4\tstatic",
+    "/source/sdk/drafts/skipback/skipback.c:48:16:sb_required_bytes\t4\tstatic",
+    "/source/sdk/drafts/skipback/skipback.c:55:16:sb_start\t28\tstatic",
+    "/source/sdk/drafts/skipback/skipback.c:77:16:sb_append\t28\tdynamic,bounded",
+    "/source/sdk/drafts/skipback/skipback.c:91:16:sb_freeze\t8\tstatic",
+    "/source/sdk/drafts/skipback/skipback.c:108:16:sb_realign\t48\tdynamic,bounded"
+  ],
+  "undefinedSymbols": [],
+  "codegenGuard": "passed",
+  "freestandingLink": true,
+  "hardware": "not tested",
+  "timing": "not measured",
+  "nativeAdapter": "not implemented"
+}

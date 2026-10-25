@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 192" role="img" aria-labelledby="title desc">
+  <title id="title">Skipback capture ring</title>
+  <desc id="desc">A conceptual recording ring unwinds into a chronological sample. This is not an instrument screen.</desc>
+  <rect width="320" height="192" fill="#101619"/>
+  <g stroke="#c4d4d8" stroke-opacity=".07" fill="none">
+    <path d="M0 52H320M0 97H320M0 142H320M64 0V192M128 0V192M192 0V192M256 0V192"/>
+  </g>
+  <g stroke="#b2d7ca" fill="none" stroke-width="1.5">
+    <path d="M114 67a39 39 0 1 0 13 29" opacity=".45"/>
+    <path d="m106 60 9 7-10 5M38 97h10l5-14 7 27 7-19 7 6h13l5-11 7 22 7-11h13"/>
+    <path d="M142 97h31m-6-5 6 5-6 5" opacity=".5"/>
+    <path d="M191 97h10l5-14 7 27 7-19 7 6h13l5-11 7 22 7-11h22"/>
+    <path d="M191 68v56M281 68v56" opacity=".35"/>
+  </g>
+  <g fill="#b2d7ca" font-family="monospace" font-size="9" letter-spacing="1.4">
+    <text x="43" y="151">MAIN · 60s</text>
+    <text x="194" y="151">OLDEST →</text>
+  </g>
+</svg>

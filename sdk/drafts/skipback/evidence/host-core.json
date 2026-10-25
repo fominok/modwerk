@@ -1,0 +1,17 @@
+{
+  "scope": "Synthetic PCM host execution; no stock OS, native adapter or hardware",
+  "platform": "darwin",
+  "compiler": "clang version 21.1.7",
+  "sanitizers": "undefined",
+  "sources": {
+    "skipback.c": "18b826c9f58d4f0c61710745fec8c78f5d9e11c4a44dc82847d4916a9e2c2dea",
+    "skipback.h": "9c19c4efe1c40f35a01a5162357ad325020b0dc1513286c9239aa60af3a88fee",
+    "test_skipback.c": "fc2173235ae19d01c8ca76c83c7312bcd42ca33841cacf23acf50200630bfc97",
+    "test_core.py": "50d6b8c636849cdddc7f9d42f6cfca7f42bc89ba4c5fc872ee9f74e0b961da42"
+  },
+  "result": "PASS: settings, admission, 16256 rotations, packed stereo streams, bounded work and fault paths",
+  "exitCode": 0,
+  "emulator": "not run",
+  "hardware": "not tested",
+  "timing": "not measured"
+}

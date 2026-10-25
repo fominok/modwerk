@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 2,
+  "id": "skipback",
+  "key": "SKIPBACK",
+  "name": "Skipback",
+  "version": "0.1.0-experimental",
+  "category": "system",
+  "author": {
+    "github": "fominok",
+    "credits": [
+      "fominok"
+    ]
+  },
+  "nativeManifest": "manifest.py",
+  "presentation": {
+    "label": "SKIPBACK",
+    "family": "Recording workflow",
+    "summary": "Development draft: retain the last minute of stereo MAIN in a configurable recorder buffer.",
+    "overview": "Portable capture core with bounded in-place chronological realignment. Native recording, project settings, AED and USB integration are pending.",
+    "highlights": [
+      "R8 and 60 seconds by default; recording starts OFF.",
+      "Byte-preserving 16/24-bit stereo capture core.",
+      "Explicit rearm protects a frozen capture."
+    ],
+    "usage": [
+      "Not installable. Proposed access: PROJECT > CONTROL > SKIPBACK. See README.md and INTEGRATION.md."
+    ]
+  },
+  "controls": [
+    {
+      "name": "ENABLED",
+      "default": 0,
+      "count": 2,
+      "labels": [
+        "OFF",
+        "ON"
+      ],
+      "doc": "Proposed setting: explicitly start continuous MAIN capture. Project load leaves recording OFF."
+    },
+    {
+      "name": "BUFFER",
+      "default": 7,
+      "count": 8,
+      "labels": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "R5",
+        "R6",
+        "R7",
+        "R8"
+      ],
+      "doc": "Proposed setting: exclusive target recorder. Native ownership admission is not implemented."
+    },
+    {
+      "name": "WINDOW",
+      "default": 59,
+      "count": 120,
+      "labels": null,
+      "doc": "Proposed setting: index + 1 seconds, 1\u2013120; default 60 seconds. Refuse insufficient memory; native limits are unverified."
+    }
+  ],
+  "compatibility": {
+    "firmware": "1.40C",
+    "location": "Audio tracks",
+    "conflicts": [],
+    "uiClaims": [],
+    "limitations": [
+      "Unlisted development draft, not installable firmware.",
+      "No native recorder/MAIN adapter, AED publication, project menu/settings storage or USB package.",
+      "Core accepts stereo packed 16/24-bit frames at 44.1 kHz; available recorder capacity has not been measured.",
+      "No instrument UI, real-time cost, audible output, project persistence or hardware qualification is claimed."
+    ],
+    "effectId": null
+  },
+  "resources": {
+    "recorded": "Not measured",
+    "storage": {
+      "label": "Storage",
+      "display": "Not measured",
+      "value": null,
+      "unit": "unknown",
+      "method": "unmeasured",
+      "conditions": "No measurements exist yet. Add exact conditions and source evidence when available.",
+      "source": "TESTING.md"
+    },
+    "processing": {
+      "label": "CPU / DSP load",
+      "display": "Not measured",
+      "value": null,
+      "unit": "unknown",
+      "method": "unmeasured",
+      "conditions": "No measurements exist yet. Add exact conditions and source evidence when available.",
+      "source": "TESTING.md"
+    }
+  },
+  "tests": {
+    "report": "TESTING.md",
+    "summary": "Synthetic PCM tests pass, including 16,256 rotations and multiple default-minute wraps in both formats. Freestanding ColdFire compile/link passes. Native adapter, emulator acceptance and hardware remain untested.",
+    "hardwareStatus": "untested",
+    "evidenceRevision": "916ce01bbfc60f3aedd7156066354fedb521e6f4",
+    "gates": [
+      "python3 -B sdk/drafts/skipback/test_core.py",
+      "Pinned ColdFire compile/link: native_probe.py",
+      "verify.py deliberately fails until native integration is qualified"
+    ]
+  },
+  "license": {
+    "spdx": "GPL-3.0-or-later",
+    "file": "LICENSE",
+    "declaration": "Original Skipback code, tests, documentation and conceptual artwork by fominok. No stock firmware, extracted code/tables, samples or built images."
+  },
+  "media": [],
+  "access": {
+    "location": "Proposed: PROJECT > CONTROL > SKIPBACK; not implemented.",
+    "steps": [
+      "Proposed: open the project menu, choose CONTROL, then SKIPBACK.",
+      "Choose the recorder buffer and window, then explicitly enable MAIN capture.",
+      "Open the selected recorder in AED to freeze and realign the sample; edit and save with stock AED.",
+      "Choose REARM explicitly and confirm replacement before recording again."
+    ],
+    "screenshots": []
+  }
+}
